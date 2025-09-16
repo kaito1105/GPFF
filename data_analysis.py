@@ -3,11 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 import gspread
-from google.oauth2.service_account import Credentials
+from google.oauth2 import service_account
 
 # Set up
-scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-creds = Credentials.from_service_account_file("credentials.json", scopes=scopes)
+creds = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=["https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive"]
+)
 client = gspread.authorize(creds)
 
 sheet_id = "1K9uav-ldWAqZIyuoKdsAEB3i3ElNka2le7buThgkp7w"
